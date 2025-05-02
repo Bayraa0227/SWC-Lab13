@@ -2,6 +2,7 @@ package AndrewWebServices;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,9 +16,10 @@ public class AndrewWebServicesTest {
     @Before
     public void setUp() {
         // You need to use some mock objects here
-        database = new Database(); // We probably don't want to access our real database...
-        recommender = new RecSys();
-        promoService = new PromoService();
+        database = new InMemoryDatabase(); // We probably don't want to access our real database...
+        recommender = mock(RecSys.class);
+        promoService = mock(PromoService.class);
+        when(recommender.getRecommendation(anyString())).thenReturn("Animal House");
 
         andrewWebService = new AndrewWebServices(database, recommender, promoService);
     }
